@@ -3,6 +3,7 @@
 
 ## 命令集合
 主命令 passall
+```
 Commands:
   add     --service <s> --account <a>            add a new entry
   get     --service <s> [--account <a>]          get entry/entries
@@ -10,3 +11,4 @@ Commands:
   delete  --service <s> --account <a>            delete an entry
   list    [--service <s>]                        list entries
   auth    <init|change>                          manage master password`
+```
