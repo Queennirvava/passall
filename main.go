@@ -11,11 +11,14 @@ import (
 )
 
 func main() {
+	//检查输入命令参数的个数，如果参数小于2，即只有主命令，没有子命令，
+	//直接打印用户说明，并退出
 	if len(os.Args) < 2 {
 		printUsage()
 		os.Exit(1)
 	}
 
+	//加载配置
 	cfg, err := config.Load()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %v\n", err)
@@ -38,7 +41,7 @@ func main() {
 	case "add":
 		runErr = cmd.RunAdd(v, args)
 	case "get":
-		runErr = cmd.RunGet(v, args)
+		runErr = cmd.RunGet(v, a, args)
 	case "update":
 		if runErr = cmd.RequireMasterPassword(a); runErr == nil {
 			runErr = cmd.RunUpdate(v, args)

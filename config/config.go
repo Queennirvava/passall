@@ -41,6 +41,7 @@ func defaultConfig() Config {
 }
 
 // Load reads and parses the config file at the default path (~/.passall/config.yaml).
+// 加载默认配置文件
 func Load() (*Config, error) {
 	return LoadFrom(defaultConfigPath)
 }
@@ -50,7 +51,8 @@ func Load() (*Config, error) {
 // get an out-of-box experience without creating a config file manually.
 // All "~/" path prefixes in field values are expanded before returning.
 func LoadFrom(path string) (*Config, error) {
-	expanded, err := expandHomePath(path)
+	//拓展home符，home符号是shell语法糖，操作系统不识别
+	expandedPath, err := expandHomePath(path)
 	if err != nil {
 		return nil, fmt.Errorf("config: resolve path %q: %w", path, err)
 	}
@@ -58,7 +60,7 @@ func LoadFrom(path string) (*Config, error) {
 	// Start with convention defaults so missing fields are always populated.
 	cfg := defaultConfig()
 
-	data, err := os.ReadFile(expanded)
+	data, err := os.ReadFile(expandedPath)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			// No config file — use defaults as-is (convention over configuration).
@@ -67,7 +69,7 @@ func LoadFrom(path string) (*Config, error) {
 			}
 			return &cfg, nil
 		}
-		return nil, fmt.Errorf("config: read file %q: %w", expanded, err)
+		return nil, fmt.Errorf("config: read file %q: %w", expandedPath, err)
 	}
 
 	// Config file exists: overlay user values on top of defaults.
