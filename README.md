@@ -10,5 +10,5 @@ Commands:
   update  --service <s> --account <a>            update password
   delete  --service <s> --account <a>            delete an entry
   list    [--service <s>]                        list entries
-  auth    <init|change>                          manage master password`
+  auth    <init|change>                          manage master password
 ```
